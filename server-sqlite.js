@@ -65,7 +65,12 @@ module.exports = function(app){
   // registrera en ny användare
   app.post('/rest/users', async (request, response) => {
     let user = request.body
-    let result = await db.all('INSERT INTO users VALUES(?,?,?,?,?)', [null, user.email, user.password, user.first_name, user.last_name])
+    let result
+    try{
+      result = await db.all('INSERT INTO users VALUES(?,?,?,?,?)', [null, user.email, user.password, user.first_name, user.last_name])
+    }catch(e){
+      console.error(e)
+    }
     response.json(result)
   })
 
