@@ -17,6 +17,12 @@ module.exports = function(app){
     res.json(result)
   })
 
+  app.get("/rest/foods/:id", async (req, res) => {
+    let query = "SELECT * FROM foods WHERE id = ?"
+    let result = await db.all(query, [req.params.id])
+    res.json(result)
+  })
+
   app.post('/rest/cart-item', async (request, response) => {
     // check if user exists before writing
     if(!request.session.user){
