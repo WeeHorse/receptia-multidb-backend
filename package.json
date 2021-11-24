@@ -13,12 +13,12 @@
     "express-session": "^1.17.0",
     "mssql": "^6.3.1",
     "mysql": "^2.18.1",
-    "sqlite3": "^4.2.0",
+    "sqlite3": "^5.0.2",
     "stripe": "^8.150.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "newman run tests/postman/Receptia.postman_collection.json",
     "start": "node server.js"
   },
   "repository": {
