@@ -20,7 +20,7 @@ module.exports = function(app){
   app.get("/rest/foods/:id", async (req, res) => {
     let query = "SELECT * FROM foods WHERE id = ?"
     let result = await db.all(query, [req.params.id])
-    res.json(result)
+    res.json(result[0])
   })
 
   app.post('/rest/cart-item', async (request, response) => {
