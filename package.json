@@ -24,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WeeHorse/receptia-on-mysql.git"
+    "url": "git+https://github.com/WeeHorse/receptia-multidb-backend.git"
   },
   "author": "WeeHorse",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/WeeHorse/receptia-on-mysql/issues"
+    "url": "https://github.com/WeeHorse/receptia-multidb-backend/issues"
   },
-  "homepage": "https://github.com/WeeHorse/receptia-on-mysql#readme"
+  "homepage": "https://github.com/WeeHorse/receptia-multidb-backend#readme"
 }
