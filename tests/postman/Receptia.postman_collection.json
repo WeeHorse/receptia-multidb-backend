@@ -1,23 +1,33 @@
 {
 	"info": {
-		"_postman_id": "1040031d-edbf-4b1f-9c7e-ce91a2e9a932",
+		"_postman_id": "f8e0e7a2-1274-4650-8eae-581190eda9fb",
 		"name": "Receptia",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "/rest",
+			"name": "API description",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://10.11.13.200:3000/rest/",
+					"raw": "http://localhost:3000/rest/",
 					"protocol": "http",
 					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
+						"localhost"
 					],
 					"port": "3000",
 					"path": [
@@ -30,17 +40,37 @@
 		},
 		{
 			"name": "/rest/foods",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"All foods has correct props\", function () {",
+							"    let foods = pm.response.json();",
+							"    for(let food of foods){",
+							"        // pm.expect(expression, message).chain...",
+							"        pm.expect(food, \"food w id\" + food.id).to.have.all.keys(\"id\",\"title\",\"text\",\"image\",\"cost\",\"category\")",
+							"    }",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://10.11.13.200:3000/rest/foods",
+					"raw": "http://localhost:3000/rest/foods",
 					"protocol": "http",
 					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
+						"localhost"
 					],
 					"port": "3000",
 					"path": [
@@ -52,94 +82,23 @@
 			"response": []
 		},
 		{
-			"name": "/rest/users",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"ben3@weehorse.se\",\n    \"password\": \"abc123\",\n    \"first_name\": \"Ben1\",\n    \"last_name\": \"Weehorse\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://10.11.13.200:3000/rest/users",
-					"protocol": "http",
-					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
-					],
-					"port": "3000",
-					"path": [
-						"rest",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/rest/login",
+			"name": "/rest/foods/:id",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Login\", function () {",
-							"    let login = pm.response.json();",
-							"    pm.expect(login.loggedIn).to.be.true;",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"benjamin3@node.se\",\n    \"password\": \"abc123\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://10.11.13.200:3000/rest/login",
-					"protocol": "http",
-					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
-					],
-					"port": "3000",
-					"path": [
-						"rest",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/rest/login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Be logged in\", function () {",
-							"    let login = pm.response.json();",
-							"    pm.expect(login.loggedIn).to.be.true;",
-							"});"
+							"pm.test(\"Food obj matches id\", function () {",
+							"    let food = pm.response.json();",
+							"    pm.expect(food.id).to.eql(1);",
+							"});",
+							"",
+							"pm.test(\"Food has correct props\", function () {",
+							"    let food = pm.response.json();",
+							"    pm.expect(food).to.have.all.keys(\"id\",\"title\",\"text\",\"image\",\"cost\",\"category\")",
+							"});",
+							"",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -149,115 +108,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://10.11.13.200:3000/rest/login",
+					"raw": "http://localhost:3000/rest/foods/1",
 					"protocol": "http",
 					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
+						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"rest",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/rest/login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Logout\", function () {",
-							"    let login = pm.response.json();",
-							"    pm.expect(login.loggedIn).to.be.false;",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://10.11.13.200:3000/rest/login",
-					"protocol": "http",
-					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
-					],
-					"port": "3000",
-					"path": [
-						"rest",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/rest/login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Be logged out\", function () {",
-							"    let login = pm.response.json();",
-							"    pm.expect(login.loggedIn).to.be.false;",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://10.11.13.200:3000/rest/login",
-					"protocol": "http",
-					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
-					],
-					"port": "3000",
-					"path": [
-						"rest",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/rest/cart",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://10.11.13.200:3000/rest/cart",
-					"protocol": "http",
-					"host": [
-						"10",
-						"11",
-						"13",
-						"200"
-					],
-					"port": "3000",
-					"path": [
-						"rest",
-						"cart"
+						"foods",
+						"1"
 					]
 				}
 			},

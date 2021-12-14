@@ -1,8 +1,17 @@
-// pick SQL version
+// välj SQL-version
 const selectedSQL = ['sqlite','mysql','mssql'][0] // 0 = sqlite, 1 = mysql, 2 = mssql
 
+// server port
+let port = 3000
+
+// express server
 let express = require('express')
 const app = express()
+
+// set limit for json request body
+app.use(express.json({ limit: '100MB' }));
+// serve frontend files (built)
+app.use(express.static('client'));
 
 // läser in modulen body-parser
 const bodyParser = require('body-parser')
@@ -28,51 +37,11 @@ app.use( session( {
 const Stripe = require('stripe')
 const stripe = new Stripe('sk_test_NzHkwYglPCxxPr9NXGgBrhTy') // stripe.com api secret key
 
-const apiDescription = [
-    {
-      route:"/rest",
-      methods: ["GET"],
-      description:"This route: The API documentation"
-    },
-    {
-      route:"/rest/foods",
-      methods: ["GET"],
-      description:"List available foods"
-    },
-    {
-      route:"/rest/cart",
-      methods: ["GET","DELETE"],
-      description:"List or delete the user's cart content"
-    },
-    {
-      route:"/rest/cart-item",
-      methods: ["POST"],
-      description:"Add an item to the card"
-    },
-    {
-      route:"/rest/cart-item/:id",
-      methods: ["DELETE"],
-      description:"Delete a specific item from the card"
-    },
-    {
-      route:"/rest/users",
-      methods: ["POST"],
-      description:"Create a user"
-    },
-    {
-      route:"/rest/login",
-      methods: ["POST","GET","DELETE"],
-      description:"Login user, get current logged in user, logout"
-    },
-    {
-      route:"/rest/pay",
-      methods: ["POST"],
-      description:"Make a payment"
-    }
-  ]
-
 // database specific REST ROUTES
 const db = require("./server-" + selectedSQL + ".js")(app);
+
+// REST api desciption
+const apiDescription = require('./api-description.js')
 
 // common REST ROUTES
 
@@ -114,10 +83,10 @@ app.post('/rest/pay', async (request, response) => {
 
 
 // start av webbservern
-app.listen(3000, async () => {
+app.listen(port, async () => {
     if(db.connect){ // connect to db server if there is one (sqlite does not use one)
         await db.connect()
     }
-    console.log('http://localhost:3000/rest/')
-    console.log('server running on port 3000')
+    console.log(`http://localhost:${port}/rest/`)
+    console.log('server running on port ' + port)
 })
