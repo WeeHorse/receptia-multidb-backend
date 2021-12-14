@@ -10,8 +10,9 @@ const app = express()
 
 // set limit for json request body
 app.use(express.json({ limit: '100MB' }));
+
 // serve frontend files (built)
-app.use(express.static('client'));
+app.use(express.static('./client'));
 
 // läser in modulen body-parser
 const bodyParser = require('body-parser')
@@ -41,7 +42,8 @@ const stripe = new Stripe('sk_test_NzHkwYglPCxxPr9NXGgBrhTy') // stripe.com api 
 const db = require("./server-" + selectedSQL + ".js")(app);
 
 // REST api desciption
-const apiDescription = require('./api-description.js')
+const apiDescription = require('./api-description.js');
+const res = require('express/lib/response');
 
 // common REST ROUTES
 
@@ -79,6 +81,12 @@ app.post('/rest/pay', async (request, response) => {
 
   response.json({customer, source, charge})
 
+})
+
+// wildcard 404
+app.all('/*', async (request, response) => {
+  response.status(404)
+  response.json({ error: 'No such route.' });
 })
 
 
