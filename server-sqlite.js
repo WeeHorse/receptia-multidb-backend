@@ -100,11 +100,19 @@ module.exports = function(app){
 
     user = user[0] // resultatet av min SELECT blir en array, vi är bara intresserade av första elementet (vårt user objekt)
 
-    if(user && user.email){
+    console.log('request.session.verification', request.session.verification)
+
+    if(user && user.email && request.session?.verification?.status == 0 && request.session?.verification?.phone_number == user.phone){
       request.session.user = user
       user.loggedIn = true
       user.roles = ['user'] // mock (@todo skapa roles tabell i databasen och joina med users)
       response.json({loggedIn:true})
+    }else if((user && user.email) && request.session?.verification?.status != 0){
+      if(!request.session.verification || request.session?.verification?.status == -1){
+        response.json({error: "You must verify your account using two-factor authentication"})
+      }else{
+        response.json({error: "Your two-factor authentication has failed", statusCode: request.session?.verification?.status})
+      }
     }else{
       response.status(401) // unauthorized  https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
       response.json({loggedIn:false, message:"no matching user"})

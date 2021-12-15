@@ -90,12 +90,50 @@ app.post('/rest/pay', async (request, response) => {
 
 })
 
+// Vonage 2FA 
+const Vonage = require('@vonage/server-sdk');
+const vonage = new Vonage({
+  apiKey: "f713a6d9",
+  apiSecret: "aSjPwz9cuuVwKNqS"
+});
+
+app.post('/rest/verify/request', async (request, response)=>{
+  vonage.verify.request({
+    number: request.body.number,
+    brand: "Vonage"
+  }, (err, result) => {
+    if (err) {
+      response.json({error: err})
+    } else {
+      request.session.verification = {
+        request_id: result.request_id,
+        phone_number: request.body.number,
+        status: -1 // = har inte gjort en request
+      }
+      response.json({verification: 'pending', verifyRequestId: result.request_id})
+    }
+  });
+})
+
+app.post('/rest/verify/confirm', async (request, response)=>{
+  vonage.verify.check({
+    request_id: request.session?.verification?.request_id,
+    code: request.body.code
+  }, (err, result) => {
+    if (err) {
+      response.json({error: err})
+    } else {
+      request.session.verification.status = result.status
+      response.json({verification: 'completed', status: result.status})
+    }
+  });
+})
+
 // wildcard 404
 app.all('/*', async (request, response) => {
   response.status(404)
   response.json({ error: 'No such route.' });
 })
-
 
 // start av webbservern
 app.listen(port, async () => {

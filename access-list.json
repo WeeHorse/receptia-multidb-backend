@@ -15,11 +15,20 @@
         ]
     },
 
-    {"path":"/rest/users", 
+    {
+        "path":"/rest/users", 
         "roles":[ 
             {"role": "anonymous", "methods": ["POST"]},
             {"role": "admin", "methods": ["GET"]},
             {"role": "super", "methods": ["GET", "POST", "PUT", "DELETE"]}
         ]
+    },
+
+    {
+        "path": "/rest/verify*",
+        "roles":[ 
+            {"role": "anonymous", "methods": ["POST"]}
+        ]
+
     }
 ]
