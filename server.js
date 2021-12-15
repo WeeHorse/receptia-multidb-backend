@@ -83,6 +83,41 @@ app.post('/rest/pay', async (request, response) => {
 
 })
 
+// 2FA 
+const Vonage = require('@vonage/server-sdk');
+const vonage = new Vonage({
+  apiKey: "f713a6d9",
+  apiSecret: "aSjPwz9cuuVwKNqS"
+});
+
+app.post('/rest/2fa', async (request, response) => {
+  vonage.verify.request({
+    number: request.body.number,
+    brand: "Vonage"
+  }, (err, result) => {
+    if (err) {
+      response.json({ error: err })
+    } else {
+      request.session.user.twofaId = result.request_id
+      response.json({twofaId: result.request_id})
+    }
+  })
+})
+
+app.get('/rest/2fa/:code', async (request, response) => {
+  vonage.verify.check({
+    request_id: request.session.user.twofaId,
+    code: request.params.code
+  }, (err, result) => {
+    if (err) {
+      response.json({ error: err })
+    } else {
+      request.session.user.twofaSuccess = true
+      response.json({twofaSuccess: true})
+    }
+  })
+})
+
 // wildcard 404
 app.all('/*', async (request, response) => {
   response.status(404)

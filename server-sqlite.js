@@ -1,5 +1,9 @@
+// password crypto
+const passwordCrypto = require('./password-crypto.js')
+
 module.exports = function(app){
 
+  
   // mysqlite
   const sqlite = require('sqlite3')
   // öppnar och ansluter till databasen
@@ -71,9 +75,10 @@ module.exports = function(app){
   // registrera en ny användare
   app.post('/rest/users', async (request, response) => {
     let user = request.body
+    let hash = passwordCrypto.getHash(user.password)
     let result
     try{
-      result = await db.all('INSERT INTO users VALUES(?,?,?,?,?)', [null, user.email, user.password, user.first_name, user.last_name])
+      result = await db.all('INSERT INTO users VALUES(?,?,?,?,?)', [null, user.email, hash, user.first_name, user.last_name])
     }catch(e){
       console.error(e)
     }
@@ -82,7 +87,8 @@ module.exports = function(app){
 
   // logga in
   app.post('/rest/login', async (request, response) => {
-    let user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.body.email, request.body.password])
+    let hash = passwordCrypto.getHash(request.body.password)
+    let user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.body.email, hash])
 
     user = user[0] // resultatet av min SELECT blir en array, vi är bara intresserade av första elementet (vårt user objekt)
 
