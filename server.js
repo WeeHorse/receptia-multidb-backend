@@ -30,8 +30,11 @@ let session = require('express-session')
 app.use( session( {
   secret: 'keyboard cat jksfj<khsdka',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // ändra till true för secure cookie (felsöka behövs här nu)
+  saveUninitialized: true, // @todo läsa på
+  cookie: { 
+    secure: false, // @todo: Förklara, anpassa. Kryperad cookie, vi kan inte läsa klartextvärden. Inte heller se att en ens finns (på chrome 2021 i a f...)
+    httpOnly: true // kan bara manageras på serversidan, kan inte kommas åt från javascript i klienten
+  } // ändra till true för secure cookie (felsöka behövs här nu)
 } ) )
 
 // stripe

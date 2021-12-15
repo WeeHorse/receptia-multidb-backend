@@ -10,8 +10,8 @@
     {
         "path": "/rest/login",
         "roles":[
-            {"role": "anonymous", "methods": ["POST"]},
-            {"role": "user", "methods": ["GET", "DELETE"]}
+            {"role": "user", "methods": ["GET", "DELETE"]},
+            {"role": "anonymous", "methods": ["POST"]}        
         ]
     },
 

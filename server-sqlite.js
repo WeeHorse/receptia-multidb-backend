@@ -1,3 +1,13 @@
+// modul? om vi hade använt ES6-moduler hade det varit smidigt att ha crypto + getHash i en egen modul
+const crypto = require("crypto")
+const salt = "öoaheriaheithfd".toString('hex')
+function getHash(password){ // utility att skapa kryperade lösenord
+    let hash = crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString('hex')
+    return hash
+}
+// end - modul?
+
+
 module.exports = function(app){
 
   // mysqlite
@@ -12,6 +22,8 @@ module.exports = function(app){
   // REST routes (endpoints)
 
   app.get("/rest/foods", async (req, res) => {
+    // console.log(req.session)
+    // req.session.color = "blue"
     let query = "SELECT * FROM foods"
     let result = await db.all(query)
     res.json(result)
@@ -71,9 +83,10 @@ module.exports = function(app){
   // registrera en ny användare
   app.post('/rest/users', async (request, response) => {
     let user = request.body
+    let encryptedPassword = getHash(user.password) // encrypted password
     let result
     try{
-      result = await db.all('INSERT INTO users VALUES(?,?,?,?,?)', [null, user.email, user.password, user.first_name, user.last_name])
+      result = await db.all('INSERT INTO users VALUES(?,?,?,?,?)', [null, user.email, encryptedPassword, user.first_name, user.last_name])
     }catch(e){
       console.error(e)
     }
@@ -82,7 +95,8 @@ module.exports = function(app){
 
   // logga in
   app.post('/rest/login', async (request, response) => {
-    let user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.body.email, request.body.password])
+    let encryptedPassword = getHash(request.body.password)
+    let user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.body.email, encryptedPassword])
 
     user = user[0] // resultatet av min SELECT blir en array, vi är bara intresserade av första elementet (vårt user objekt)
 

@@ -6,14 +6,14 @@ module.exports = function(req, res, next){
     let roles = req.session?.user?.roles || ['anonymous'] 
     roles.push('*') // always add any match (wildcard)
     
-    console.log({
-        'req.path': req.path,
-        'req.method': req.method,
-        'req.body': req.body,
-        'req.session.user': req.session.user,
-        'roles': roles,
-        'accessList': accessList
-    })
+    // console.log({
+    //     'req.path': req.path,
+    //     'req.method': req.method,
+    //     'req.body': req.body,
+    //     'req.session.user': req.session.user,
+    //     'roles': roles,
+    //     'accessList': accessList
+    // })
 
     let found = false
 
