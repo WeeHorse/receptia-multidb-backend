@@ -85,8 +85,9 @@ module.exports = function(app){
     let user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.body.email, request.body.password])
 
     user = user[0] // resultatet av min SELECT blir en array, vi är bara intresserade av första elementet (vårt user objekt)
-
+    
     if(user && user.email){
+      user.role = ["user", "admin"]
       request.session.user = user
       user.loggedIn = true
       response.json({loggedIn:true})

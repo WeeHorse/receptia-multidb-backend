@@ -1,0 +1,32 @@
+[
+    {"path":"/rest/foods", 
+        "roles":[ 
+            {"role": "*", "methods": ["GET"]} 
+        ]
+    },
+    
+    {"path":"/rest/users", 
+        "roles":[ 
+            {"role": "anonymous", "methods": ["POST"]},
+            {"role": "admin", "methods": ["GET"]}
+        ]
+    },
+
+    {"path":"/rest/login", 
+        "roles":[ 
+            {"role": "anonymous", "methods": ["POST"]} 
+        ]
+    },
+
+    {"path":"/rest/login", 
+        "roles":[ 
+            {"role": "user", "methods": ["GET"]} 
+        ]
+    },
+
+    {"path":"/rest/login", 
+        "roles":[ 
+            {"role": "user", "methods": ["DELETE"]} 
+        ]
+    }     
+]

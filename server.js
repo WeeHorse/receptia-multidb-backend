@@ -11,8 +11,7 @@ const app = express()
 // set limit for json request body
 app.use(express.json({ limit: '100MB' }));
 
-// serve frontend files (built)
-app.use(express.static('./client'));
+
 
 // läser in modulen body-parser
 const bodyParser = require('body-parser')
@@ -37,6 +36,13 @@ app.use( session( {
 // stripe
 const Stripe = require('stripe')
 const stripe = new Stripe('sk_test_NzHkwYglPCxxPr9NXGgBrhTy') // stripe.com api secret key
+
+// ACL
+const acl = require('./acl.js')
+app.use(acl)
+
+// serve frontend files (built)
+app.use(express.static('./client'));
 
 // database specific REST ROUTES
 const db = require("./server-" + selectedSQL + ".js")(app);
