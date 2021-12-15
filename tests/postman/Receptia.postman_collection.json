@@ -1,115 +1,17 @@
 {
 	"info": {
-		"_postman_id": "f8e0e7a2-1274-4650-8eae-581190eda9fb",
+		"_postman_id": "e19a603c-a04a-499e-820f-d2ab4a0b306d",
 		"name": "Receptia",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "API description",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
+			"name": "localhost:3000/rest/foods/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/rest/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"rest",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/rest/foods",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"All foods has correct props\", function () {",
-							"    let foods = pm.response.json();",
-							"    for(let food of foods){",
-							"        // pm.expect(expression, message).chain...",
-							"        pm.expect(food, \"food w id\" + food.id).to.have.all.keys(\"id\",\"title\",\"text\",\"image\",\"cost\",\"category\")",
-							"    }",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/rest/foods",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"rest",
-						"foods"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/rest/foods/:id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Food obj matches id\", function () {",
-							"    let food = pm.response.json();",
-							"    pm.expect(food.id).to.eql(1);",
-							"});",
-							"",
-							"pm.test(\"Food has correct props\", function () {",
-							"    let food = pm.response.json();",
-							"    pm.expect(food).to.have.all.keys(\"id\",\"title\",\"text\",\"image\",\"cost\",\"category\")",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/rest/foods/1",
-					"protocol": "http",
+					"raw": "localhost:3000/rest/foods/",
 					"host": [
 						"localhost"
 					],
@@ -117,7 +19,256 @@
 					"path": [
 						"rest",
 						"foods",
-						"1"
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "localhost:3000/rest/foods/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/rest/foods/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rest",
+								"foods",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "localhost:3000/rest/login/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"ben@node.se\",\n\t\"password\": \"abc123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/login/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/login/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rest/login/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/login/",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rest/login/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/cart/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rest/cart/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"cart",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/cart-item/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"food\": 2,\n\t\"amount\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/cart-item/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"cart-item",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/foods/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"category\": \"burgers\",\n    \"title\": \"Not a burger\",\n    \"text\": \"This vegetarian, vegan and gluten-free mushroom burger recipe may just surprise you with how tasty it is. While mushrooms provide plenty of flavor and texture, the addition of pinto beans makes this veggie burger recipe high in fiber and protein too. There's not much to them, other than that! Just mash everything up together, form into patties, heat and serve!\",\n    \"image\": \"https://images.unsplash.com/photo-1532768641073-503a250f9754?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bceece29b062fe6d758ddfa2400c554c&auto=format&w=1024&q=80\",\n    \"cost\": 245\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/foods/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"foods",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/cart/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rest/cart/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"cart",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/users/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"benjamin@node.se\",\n\t\"password\": \"abc123\",\n    \"first_name\": \"Benjamin\",\n    \"last_name\": \"Berglund\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/users/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/users/ PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 5,\n    \"email\": \"benjamin@node.se\",\n\t\"password\": \"abc123\",\n    \"first_name\": \"Benjamin\",\n    \"last_name\": \"Jonsson\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/users/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"users",
+						""
 					]
 				}
 			},
