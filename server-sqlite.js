@@ -1,5 +1,6 @@
 // modul? om vi hade använt ES6-moduler hade det varit smidigt att ha crypto + getHash i en egen modul
 const crypto = require("crypto")
+const { use } = require("express/lib/application")
 const salt = "öoaheriaheithfd".toString('hex')
 function getHash(password){ // utility att skapa kryperade lösenord
     let hash = crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString('hex')
@@ -104,8 +105,8 @@ module.exports = function(app){
 
     if(user && user.email && request.session?.verification?.status == 0 && request.session?.verification?.phone_number == user.phone){
       request.session.user = user
-      user.loggedIn = true
-      user.roles = ['user'] // mock (@todo skapa roles tabell i databasen och joina med users)
+      request.session.user.loggedIn = true
+      request.session.user.roles = user.roles.split(',') // splittar ett textfält med roller i user tabellen
       response.json({loggedIn:true})
     }else if((user && user.email) && request.session?.verification?.status != 0){
       if(!request.session.verification || request.session?.verification?.status == -1){
@@ -125,6 +126,7 @@ module.exports = function(app){
     if(request.session.user){
       user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.session.user.email, request.session.user.password])
       user = user[0]
+      user.roles = user.roles.split(',')
     }
     if(user && user.email){
       user.loggedIn = true
