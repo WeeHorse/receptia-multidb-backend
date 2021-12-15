@@ -1,0 +1,25 @@
+[
+    {
+        "path": "/rest/foods*",
+        "roles":[
+            {"role":"*", "methods": ["GET"]},
+            {"role": "admin", "methods": ["GET", "POST", "PUT", "DELETE"]}
+        ]
+    },
+
+    {
+        "path": "/rest/login",
+        "roles":[
+            {"role": "anonymous", "methods": ["POST"]},
+            {"role": "user", "methods": ["GET", "DELETE"]}
+        ]
+    },
+
+    {"path":"/rest/users", 
+        "roles":[ 
+            {"role": "anonymous", "methods": ["POST"]},
+            {"role": "admin", "methods": ["GET"]},
+            {"role": "super", "methods": ["GET", "POST", "PUT", "DELETE"]}
+        ]
+    }
+]

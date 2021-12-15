@@ -38,6 +38,10 @@ app.use( session( {
 const Stripe = require('stripe')
 const stripe = new Stripe('sk_test_NzHkwYglPCxxPr9NXGgBrhTy') // stripe.com api secret key
 
+// ACL
+const acl = require('./acl.js')
+app.use(acl)
+
 // database specific REST ROUTES
 const db = require("./server-" + selectedSQL + ".js")(app);
 

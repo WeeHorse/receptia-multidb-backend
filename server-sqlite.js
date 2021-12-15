@@ -89,6 +89,7 @@ module.exports = function(app){
     if(user && user.email){
       request.session.user = user
       user.loggedIn = true
+      user.roles = ['user'] // mock (@todo skapa roles tabell i databasen och joina med users)
       response.json({loggedIn:true})
     }else{
       response.status(401) // unauthorized  https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
