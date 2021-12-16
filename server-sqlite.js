@@ -36,6 +36,26 @@ module.exports = function(app){
     res.json(result[0])
   })
 
+  // get all comments
+  app.get("/rest/comments", async (req, res) => {
+    let query = "SELECT * FROM comments"
+    let result = await db.all(query)
+    res.json(result)
+  })
+
+  // create comment
+  app.post('/rest/comments', async (request, response) => {
+    // check if user exists before writing
+    if(!request.session.user){
+      response.status(401) // unauthorised
+      response.json({error:'not logged in'})
+      return;
+    }
+    let comment = request.body
+    let result = await db.all('INSERT INTO comments VALUES(?,?,?,?)', [null, comment.text, comment.author,new Date()])
+    response.json(result)
+  })
+
   app.post('/rest/cart-item', async (request, response) => {
     // check if user exists before writing
     if(!request.session.user){
@@ -96,10 +116,18 @@ module.exports = function(app){
 
   // logga in
   app.post('/rest/login', async (request, response) => {
+    
     let encryptedPassword = getHash(request.body.password)
     let user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.body.email, encryptedPassword])
 
     user = user[0] // resultatet av min SELECT blir en array, vi är bara intresserade av första elementet (vårt user objekt)
+
+    if(request.bypassVerification){
+      request.session.verification = {
+        phone_number: user.phone,
+        status: 0
+      }
+    }
 
     console.log('request.session.verification', request.session.verification)
 

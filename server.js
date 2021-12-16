@@ -8,6 +8,9 @@ let port = 3000
 let express = require('express')
 const app = express()
 
+// bypass 2FA verification (dev only)
+app.use(function(req,res,next){req.bypassVerification = true; next()})
+
 // set limit for json request body
 app.use(express.json({ limit: '100MB' }));
 

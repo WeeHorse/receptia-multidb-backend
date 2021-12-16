@@ -8,6 +8,14 @@
     },
 
     {
+        "path": "/rest/comments*",
+        "roles":[
+            {"role":"*", "methods": ["GET"]},
+            {"role": "user", "methods": ["GET", "POST"]}
+        ]
+    },
+
+    {
         "path": "/rest/login",
         "roles":[
             {"role": "user", "methods": ["GET", "DELETE"]},
