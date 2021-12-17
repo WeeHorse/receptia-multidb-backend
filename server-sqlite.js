@@ -1,6 +1,7 @@
 // modul? om vi hade använt ES6-moduler hade det varit smidigt att ha crypto + getHash i en egen modul
 const crypto = require("crypto")
 const { use } = require("express/lib/application")
+const res = require("express/lib/response")
 const salt = "öoaheriaheithfd".toString('hex')
 function getHash(password){ // utility att skapa kryperade lösenord
     let hash = crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString('hex')
@@ -116,6 +117,14 @@ module.exports = function(app){
 
   // logga in
   app.post('/rest/login', async (request, response) => {
+
+    request.session.passwordAttempts = request.session.passwordAttempts || 1
+
+    if(request.session.passwordAttempts > 3){
+      response.status(401)
+      response.json({error: "Too many attempts. You must verify your account using two-factor authentication"})
+      return
+    }
     
     let encryptedPassword = getHash(request.body.password)
     let user = await db.all('SELECT * FROM users WHERE email = ? AND password = ?', [request.body.email, encryptedPassword])
@@ -124,7 +133,7 @@ module.exports = function(app){
 
     if(request.bypassVerification){
       request.session.verification = {
-        phone_number: user.phone,
+        phone_number: user?.phone,
         status: 0
       }
     }
@@ -132,6 +141,7 @@ module.exports = function(app){
     console.log('request.session.verification', request.session.verification)
 
     if(user && user.email && request.session?.verification?.status == 0 && request.session?.verification?.phone_number == user.phone){
+      request.session.passwordAttempts = 0
       request.session.user = user
       request.session.user.loggedIn = true
       request.session.user.roles = user.roles.split(',') // splittar ett textfält med roller i user tabellen
@@ -143,6 +153,7 @@ module.exports = function(app){
         response.json({error: "Your two-factor authentication has failed", statusCode: request.session?.verification?.status})
       }
     }else{
+      request.session.passwordAttempts++
       response.status(401) // unauthorized  https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
       response.json({loggedIn:false, message:"no matching user"})
     }

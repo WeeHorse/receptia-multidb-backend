@@ -9,7 +9,7 @@ let express = require('express')
 const app = express()
 
 // bypass 2FA verification (dev only)
-app.use(function(req,res,next){req.bypassVerification = true; next()})
+app.use(function(req,res,next){req.bypassVerification = false; next()})
 
 // set limit for json request body
 app.use(express.json({ limit: '100MB' }));
@@ -126,6 +126,9 @@ app.post('/rest/verify/confirm', async (request, response)=>{
     if (err) {
       response.json({error: err})
     } else {
+      if(result.status == 0){
+        request.session.passwordAttempts = 0
+      }
       request.session.verification.status = result.status
       response.json({verification: 'completed', status: result.status})
     }
