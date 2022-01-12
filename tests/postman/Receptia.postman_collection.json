@@ -1,12 +1,23 @@
 {
 	"info": {
-		"_postman_id": "e19a603c-a04a-499e-820f-d2ab4a0b306d",
+		"_postman_id": "01b27851-8c7d-47d1-af34-40d8b67fbfd2",
 		"name": "Receptia",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "localhost:3000/rest/foods/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -23,31 +34,7 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "localhost:3000/rest/foods/",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/rest/foods/",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"rest",
-								"foods",
-								""
-							]
-						}
-					},
-					"_postman_previewlanguage": "Text",
-					"header": [],
-					"cookie": [],
-					"body": ""
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "localhost:3000/rest/login/",
@@ -80,9 +67,21 @@
 		},
 		{
 			"name": "localhost:3000/rest/login/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:3000/rest/login/",
 					"host": [
@@ -268,6 +267,125 @@
 					"path": [
 						"rest",
 						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/verify/request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"number\": \"46768540989\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/verify/request",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"verify",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/verify/confirm",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"9912\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/verify/confirm",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"verify",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/comments/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"I think this that and <script>document.cookie</script> so\",\n    \"author\": \"Ben\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/comments/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"comments",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/comments/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"I think this that and so\",\n    \"author\": \"Ben\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/comments/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"comments",
 						""
 					]
 				}
