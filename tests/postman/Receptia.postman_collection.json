@@ -12,7 +12,28 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Is list\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array')",
+							"});",
+							"",
+							"pm.test(\"Each food in list has correct props\", function () {",
+							"    let foods = pm.response.json();",
+							"    for(let food of foods){",
+							"        pm.expect(food).to.have.all.keys('id','title','text', 'image', 'cost', 'category')",
+							"        pm.expect(food.id).to.be.a('number')",
+							"        pm.expect(food.id).to.be.above(0)",
+							"        pm.expect(food.cost).to.be.above(0)",
+							"    }",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -38,6 +59,19 @@
 		},
 		{
 			"name": "localhost:3000/rest/login/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -67,6 +101,19 @@
 		},
 		{
 			"name": "localhost:3000/rest/login/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -99,6 +146,19 @@
 		},
 		{
 			"name": "localhost:3000/rest/login/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -119,6 +179,94 @@
 		},
 		{
 			"name": "localhost:3000/rest/cart/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rest/cart/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"cart",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/login/ Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"ben@node.se\",\n\t\"password\": \"abc123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rest/login/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/rest/cart/ Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -139,6 +287,19 @@
 		},
 		{
 			"name": "localhost:3000/rest/cart-item/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -275,6 +436,23 @@
 		},
 		{
 			"name": "localhost:3000/rest/verify/request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 10s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(10000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -304,12 +482,29 @@
 		},
 		{
 			"name": "localhost:3000/rest/verify/confirm",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 2s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"code\": \"9912\"\n}",
+					"raw": "{\n    \"code\": \"9462\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -8,6 +8,20 @@
     },
 
     {
+        "path": "/rest/cart*",
+        "roles":[
+            {"role": "user", "methods": ["GET"]}
+        ]
+    },
+
+    {
+        "path": "/rest/cart-item*",
+        "roles":[
+            {"role": "user", "methods": ["POST"]}
+        ]
+    },
+
+    {
         "path": "/rest/comments*",
         "roles":[
             {"role":"*", "methods": ["GET"]},
