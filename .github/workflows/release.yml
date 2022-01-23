@@ -27,14 +27,14 @@ jobs:
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
       - name: Navigate to project
-        run: ssh production 'cd /var/www/receptia-multidb-backend'
+        run: ssh production 'sudo cd /var/www/receptia-multidb-backend'
         
       - name: Stop the server
-        run: ssh production 'pm2 stop receptia'
+        run: ssh production 'sudo pm2 stop receptia'
 
       - name: Check out the source
-        run: ssh production 'git fetch && git reset --hard origin/release'
+        run: ssh production 'sudo git fetch && git reset --hard origin/release'
 
       - name: Start the server
         if: ${{ always() }}
-        run: ssh production 'pm2 restart receptia'
+        run: ssh production 'sudo pm2 restart receptia'
