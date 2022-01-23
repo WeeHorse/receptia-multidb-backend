@@ -27,5 +27,8 @@ jobs:
           SSH_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
+      - name: Deploy from release
+        run: ssh staging 'cd /var/www/receptia-multidb-backend && git fetch && git reset --hard origin/release'
+
       - name: Run deploy script
-        run: ssh staging 'cd /var/www/receptia-multidb-backend && ./deploy.sh'
+        run: ssh staging './deploy.sh'
