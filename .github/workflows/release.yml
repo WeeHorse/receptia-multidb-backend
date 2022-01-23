@@ -18,11 +18,11 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.PRODUCTION_SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Navigate to project
-        run: ssh production 'sudo cd /var/www/receptia-multidb-backend'
+        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo cd /var/www/receptia-multidb-backend'
       - name: Stop the server
-        run: ssh production 'sudo pm2 stop receptia'
+        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo pm2 stop receptia'
       - name: Check out the source
-        run: ssh production 'sudo git fetch && git reset --hard origin/release'
+        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo git fetch && git reset --hard origin/release'
       - name: Start the server
         if: ${{ always() }}
-        run: ssh production 'sudo pm2 restart receptia'
+        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo pm2 restart receptia'
