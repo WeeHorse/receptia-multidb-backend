@@ -12,7 +12,7 @@ jobs:
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:          
-          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          key: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
           known_hosts: 'temp placeholder actual value added just below'
           name: production
       - name: Adding Known Hosts
