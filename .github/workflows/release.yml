@@ -11,13 +11,31 @@ jobs:
     steps:
       - name: Configure SSH
         run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ~/.ssh/id_rsa
-          echo "${{ secrets.PRODUCTION_SSH_HOST }}" > ~/.ssh/known_hosts
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          echo "$SSH_HOST" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_rsa
+          cat >>~/.ssh/config <<END
+          Host production
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/id_rsa
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
+          SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
+
+      - name: Navigate to project
+        run: ssh production 'sudo cd /var/www/receptia-multidb-backend'
+        
       - name: Stop the server
-        run: ssh 'pm2 stop receptia'
+        run: ssh production 'sudo pm2 stop receptia'
+
       - name: Check out the source
-        run: ssh 'cd /var/www/receptia-multidb-backend && git fetch && git reset --hard origin/release'
+        run: ssh production 'sudo git fetch && git reset --hard origin/release'
+
       - name: Start the server
         if: ${{ always() }}
-        run: ssh 'pm2 restart receptia'
+        run: ssh production 'sudo pm2 restart receptia'
