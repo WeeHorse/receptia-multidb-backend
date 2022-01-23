@@ -1,28 +1,20 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches: [ branch-name ]
+
 jobs:
-  # test:
-  #   ...
-  deploy:
-    name: "Deploy to production"
+  deploy:    
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/release'
-    # needs: test
     steps:
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:          
-          key: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
-          known_hosts: 'temp placeholder actual value added just below'
-          name: production
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.PRODUCTION_SSH_HOST }} >> ~/.ssh/known_hosts
-      - name: Navigate to project
-        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo cd /var/www/receptia-multidb-backend'
-      - name: Stop the server
-        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo pm2 stop receptia'
-      - name: Check out the source
-        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo git fetch && git reset --hard origin/release'
-      - name: Start the server
-        if: ${{ always() }}
-        run: ssh ${{ secrets.PRODUCTION_SSH_HOST }} 'sudo pm2 restart receptia'
+      - uses: actions/checkout@v2
+      - name: Deploy source-code
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
+          USERNAME: ${{ secrets.PRODUCTION_SSH_USER }}
+          PORT: 22
+          KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+        with:
+          source: "*"
+          target: "/var/www/receptia-multidb-backend"
