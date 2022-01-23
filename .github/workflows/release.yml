@@ -14,7 +14,7 @@ jobs:
           HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
           USERNAME: ${{ secrets.PRODUCTION_SSH_USER }}
           PORT: 22
-          KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
         with:
           source: "*"
           target: "/var/www/receptia-multidb-backend"
