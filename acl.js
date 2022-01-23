@@ -1,3 +1,4 @@
+        if(req.path.match(new RegExp(access.path))){ // @todo undersöka strikt matchning
 const accessList = require('./access-list.json')
 
 module.exports = function(req, res, next){
