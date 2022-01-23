@@ -11,10 +11,10 @@ jobs:
     steps:
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
-        with:
-          name: production
+        with:          
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           known_hosts: 'temp placeholder actual value added just below'
+          name: production
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.PRODUCTION_SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Navigate to project
