@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # stop app
-pm2 stop receptia
+/root/.nvm/versions/node/v16.13.2/bin/pm2 stop receptia
 
 # stash anything
 git stash
@@ -13,4 +13,4 @@ git checkout release
 git pull release
 
 # restart app
-pm2 restart receptia
+/root/.nvm/versions/node/v16.13.2/bin/pm2 restart receptia
