@@ -13,7 +13,6 @@ jobs:
       with:
         host: ${{ secrets.PRODUCTION_SSH_HOST }}
         username: ${{ secrets.PRODUCTION_SSH_USER }}
-        key: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
         password: ${{ secrets.PRODUCTION_SSH_PASSWORD }}
         port: 22
         script: sh /var/www/receptia-multidb-backend/deploy.sh
