@@ -21,7 +21,7 @@ jobs:
             Port 22
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
-            LogLevel VERBOSE
+            LogLevel DEBUG3
           END
         env:
           SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
