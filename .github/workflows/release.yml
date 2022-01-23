@@ -15,9 +15,9 @@ jobs:
           echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ~/.ssh/id_rsa
           echo "${{ secrets.PRODUCTION_SSH_HOST }}" > ~/.ssh/known_hosts
       - name: Stop the server
-        run: pm2 stop receptia
+        run: ssh 'pm2 stop receptia'
       - name: Check out the source
-        run: cd '/var/www/receptia-multidb-backend' && git fetch && git reset --hard origin/release
+        run: ssh 'cd /var/www/receptia-multidb-backend && git fetch && git reset --hard origin/release'
       - name: Start the server
         if: ${{ always() }}
-        run: sudo pm2 restart receptia
+        run: ssh 'pm2 restart receptia'
