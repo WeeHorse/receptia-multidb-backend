@@ -24,7 +24,7 @@ jobs:
           END
         env:
           SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
-          SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          SSH_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
       - name: Stop the server
