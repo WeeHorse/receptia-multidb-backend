@@ -28,7 +28,7 @@ jobs:
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
       - name: Stop the server
-        run: ssh staging 'sudo pm2 stop receptia'
+        run: ssh staging 'touch testfile && pwd > testfile'
 
       - name: Check out the source
         run: ssh staging 'cd /var/www/receptia-multidb-backend && git pull'
