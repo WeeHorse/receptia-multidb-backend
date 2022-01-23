@@ -1,5 +1,11 @@
 [
     {
+        "path": "/rest",
+        "roles":[
+            {"role":"*", "methods": ["GET"]}
+        ]
+    },
+    {
         "path": "/rest/foods*",
         "roles":[
             {"role":"*", "methods": ["GET"]},
