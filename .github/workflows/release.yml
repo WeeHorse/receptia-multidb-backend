@@ -14,12 +14,10 @@ jobs:
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ~/.ssh/id_rsa
           echo "${{ secrets.PRODUCTION_SSH_HOST }}" > ~/.ssh/known_hosts
-      - name: Navigate to project
-        run: cd /var/www/receptia-multidb-backend
       - name: Stop the server
         run: pm2 stop receptia
       - name: Check out the source
-        run: git fetch && git reset --hard origin/release
+        run: cd '/var/www/receptia-multidb-backend' && git fetch && git reset --hard origin/release
       - name: Start the server
         if: ${{ always() }}
         run: sudo pm2 restart receptia
