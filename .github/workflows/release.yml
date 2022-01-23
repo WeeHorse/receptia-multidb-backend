@@ -27,12 +27,5 @@ jobs:
           SSH_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
-      - name: Stop the server
-        run: ssh staging 'touch testfile && pwd > testfile'
-
-      - name: Check out the source
-        run: ssh staging 'cd /var/www/receptia-multidb-backend && git pull'
-
-      - name: Start the server
-        if: ${{ always() }}
-        run: ssh staging 'sudo pm2 restart receptia'
+      - name: Run deploy script
+        run: ssh staging 'cd /var/www/receptia-multidb-backend && ./deploy.sh'
