@@ -18,6 +18,7 @@ jobs:
           Host staging
             HostName $SSH_HOST
             User $SSH_USER
+            Port 22
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
           END
