@@ -4,7 +4,7 @@ jobs:
   # test:
   #   ...
   deploy:
-    name: "Deploy to staging"
+    name: "Deploy to dev"
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     # needs: test
@@ -12,14 +12,14 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/staging.key
-          chmod 600 ~/.ssh/staging.key
+          echo "$SSH_KEY" > ~/.ssh/dev.key
+          chmod 600 ~/.ssh/dev.key
           cat >>~/.ssh/config <<END
-          Host staging
+          Host dev
             HostName 161.35.200.255
             User root
             Port 22
-            IdentityFile ~/.ssh/staging.key
+            IdentityFile ~/.ssh/dev.key
             StrictHostKeyChecking no
           END
         env:
@@ -28,7 +28,7 @@ jobs:
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
       - name: Deploy from release
-        run: ssh staging 'cd /var/www/receptia_dev && git fetch && git reset --hard origin/main'
+        run: ssh dev 'cd /var/www/receptia_dev && git fetch && git reset --hard origin/main'
 
       - name: Restart app (all of pm2 unfortunately)
-        run: ssh staging 'systemctl restart pm2-root.service'
+        run: ssh dev 'systemctl restart pm2-root.service'
