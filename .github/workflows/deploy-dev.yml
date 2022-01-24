@@ -1,0 +1,33 @@
+name: Deploy dev
+on: 
+  push:
+    branches: [ dev ]
+jobs:
+  deploy:
+    name: "Deploy dev to dev"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/dev.key
+          chmod 600 ~/.ssh/dev.key
+          cat >>~/.ssh/config <<END
+          Host dev
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            IdentityFile ~/.ssh/dev.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}          
+
+      - name: Deploy from dev
+        run: ssh dev 'cd /path/to/your/dev/deployment/directory && git fetch && git reset --hard origin/dev'
+
+      - name: Restart app (All of pm2 unfortunately. So you must have done "pm2 save" on your processes and run setup with "pm2 startup")
+        run: ssh dev 'systemctl restart pm2-root.service'
