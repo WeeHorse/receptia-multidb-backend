@@ -1,0 +1,33 @@
+name: Deploy production
+on: 
+  push:
+    branches: [ release ]
+jobs:
+  deploy:
+    name: "Deploy release to production"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/production.key
+          chmod 600 ~/.ssh/production.key
+          cat >>~/.ssh/config <<END
+          Host production
+            HostName $SSH_HOST
+            User $SSH_PORT
+            Port $SSH_PORT
+            IdentityFile ~/.ssh/production.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}          
+
+      - name: Deploy from release
+        run: ssh production 'cd /var/www/receptia-multidb-backend && git fetch && git reset --hard origin/release'
+
+      - name: Restart app (All of pm2 unfortunately. So you must have done "pm2 save" on your processes and run setup with "pm2 startup")
+        run: ssh production 'systemctl restart pm2-root.service'
