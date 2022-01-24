@@ -1,13 +1,11 @@
 name: CI
-on: [push, pull_request]
+on: 
+  push:
+    branches: [ main ]
 jobs:
-  # test:
-  #   ...
   deploy:
     name: "Deploy to dev"
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    # needs: test
     steps:
       - name: Configure SSH
         run: |
@@ -16,18 +14,17 @@ jobs:
           chmod 600 ~/.ssh/dev.key
           cat >>~/.ssh/config <<END
           Host dev
-            HostName 161.35.200.255
+            HostName $SSH_HOST
             User root
             Port 22
             IdentityFile ~/.ssh/dev.key
             StrictHostKeyChecking no
           END
         env:
-          SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
           SSH_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
-      - name: Deploy from release
+      - name: Deploy from dev
         run: ssh dev 'cd /var/www/receptia_dev && git fetch && git reset --hard origin/main'
 
       - name: Restart app (all of pm2 unfortunately)
