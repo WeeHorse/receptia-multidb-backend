@@ -15,7 +15,7 @@ jobs:
           cat >>~/.ssh/config <<END
           Host production
             HostName $SSH_HOST
-            User $SSH_PORT
+            User $SSH_USER
             Port $SSH_PORT
             IdentityFile ~/.ssh/production.key
             StrictHostKeyChecking no
