@@ -27,7 +27,7 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}          
 
       - name: Deploy from release
-        run: ssh production 'cd /path/to/your/production/deployment/directory && git fetch && git reset --hard origin/release'
+        run: ssh production 'cd /var/www/receptia-multidb-backend && git fetch && git reset --hard origin/release'
 
       - name: Restart app (All of pm2 unfortunately. So you must have done "pm2 save" on your processes and run setup with "pm2 startup")
         run: ssh production 'systemctl restart pm2-root.service'
