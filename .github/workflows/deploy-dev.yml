@@ -27,7 +27,7 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}          
 
       - name: Deploy from dev
-        run: ssh dev 'cd /path/to/your/dev/deployment/directory && git fetch && git reset --hard origin/dev'
+        run: ssh dev 'cd /var/www/receptia_dev && git fetch && git reset --hard origin/dev'
 
       - name: Restart app (All of pm2 unfortunately. So you must have done "pm2 save" on your processes and run setup with "pm2 startup")
         run: ssh dev 'systemctl restart pm2-root.service'
